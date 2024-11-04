@@ -68,7 +68,7 @@ INSERT INTO user_salary (salary_id, user_id, salary) VALUES
 (5, 5, 90000.00);
 
 
-
+select * from user_salary;
 
 
 
