@@ -1,1 +1,3 @@
 # assinment
+# sql script
+# deepak
