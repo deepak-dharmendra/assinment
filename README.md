@@ -1,3 +1,2 @@
 # assinment
-# sql script
-# deepak
+
