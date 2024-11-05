@@ -15,3 +15,13 @@ FROM user u
 JOIN user_address ua ON u.user_id = ua.user_id
 JOIN user_salary us ON u.user_id = us.user_id
 ORDER BY ua.country, u.username;
+
+
+UPDATE user_address
+SET user_id = 1
+WHERE address_id = 2;
+
+
+UPDATE user
+SET email = 'john.doe@gmail.com'
+WHERE user_id = 1;
