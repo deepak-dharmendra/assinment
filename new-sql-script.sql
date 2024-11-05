@@ -136,3 +136,45 @@ INSERT INTO user_salary (salary_id, user_id, salary) VALUES
 (4, 4, 50000.00),
 (5, 5, 90000.00);
 
+
+CREATE TABLE IF NOT EXISTS validation_errors (
+    error_id INT AUTOINCREMENT PRIMARY KEY,
+    table_name VARCHAR(50),
+    error_message VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE OR REPLACE PROCEDURE validate_user_salary(
+    salary_id INT,
+    user_id INT,
+    salary DECIMAL(10, 2)
+)
+RETURNS STRING
+LANGUAGE SQL
+AS
+$$
+DECLARE
+    error_message STRING DEFAULT '';
+BEGIN
+    -- Check if salary is valid
+    IF (salary <= 0) THEN
+        -- Define the error message
+        error_message := 'Invalid salary value (' || salary || ') for salary ID: ' || salary_id;
+        
+        -- Insert the error message into the validation_errors table
+        INSERT INTO demo_schema.validation_errors (table_name, error_message)
+        VALUES ('user_salary', error_message);
+        
+        -- Return a failure message
+        RETURN 'Validation Failed';
+    END IF;
+
+    -- If validation passes, return a success message
+    RETURN 'Validation Passed';
+END;
+$$;
+
+CALL demo_schema.validate_user_salary(6, 3, -5000.00);  
+CALL demo_schema.validate_user_salary(7, 3, 50000.00);  
+
+
